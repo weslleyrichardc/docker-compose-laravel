@@ -3,11 +3,6 @@ Um docker compose que cria um ambiente de containers para um desenvolvimento loc
 
 Repositório criado baseado neste [artigo](https://dev.to/aschmelyun/the-beauty-of-docker-for-local-laravel-development-13c0).
 
-## Uso
----
-
-Para começar, tenha o [Docker](https://docs.docker.com/docker-for-windows/install/) instalado em seu sistema, e clone este repositório.
-
 ## Clonando ou criando seu projeto Laravel
 
 Clone seu projeto ou copie todos os arquivos diretamente dentro desta pasta `src`. 
