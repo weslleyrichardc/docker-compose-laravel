@@ -1,33 +1,50 @@
-# docker-compose-laravel
-A pretty simplified Docker Compose workflow that sets up a LEMP network of containers for local Laravel development. You can view the full article that inspired this repo [here](https://dev.to/aschmelyun/the-beauty-of-docker-for-local-laravel-development-13c0).
+# Docker Compose Laravel
+Um docker compose que cria um ambiente de containers para um desenvolvimento local de um projeto laravel. 
 
+Repositório criado baseado neste [artigo](https://dev.to/aschmelyun/the-beauty-of-docker-for-local-laravel-development-13c0).
 
-## Usage
+## Uso
+---
 
-To get started, make sure you have [Docker installed](https://docs.docker.com/docker-for-mac/install/) on your system, and then clone this repository.
+Para começar, tenha o [Docker](https://docs.docker.com/docker-for-windows/install/) instalado em seu sistema, e clone este repositório.
 
-Next, navigate in your terminal to the directory you cloned this, and spin up the containers for the web server by running `docker-compose up -d --build site`.
+## Clonando ou criando seu projeto Laravel
 
-After that completes, follow the steps from the [src/README.md](src/README.md) file to get your Laravel project added in (or create a new blank one).
+Clone seu projeto ou copie todos os arquivos diretamente dentro desta pasta `src`. 
 
-Bringing up the Docker Compose network with `site` instead of just using `up`, ensures that only our site's containers are brought up at the start, instead of all of the command containers as well. The following are built for our web server, with their exposed ports detailed:
+Ou crie um novo projeto Laravel executando o comando abaixo em seu terminal, será gerado pelo composer um projeto laravel na pasta `src`.
+```
+docker-compose run --rm composer create-project laravel/laravel .
+``` 
+
+## Executando o servidor web
+
+Na pasta raíz, execute os containers do servidor web com o comando `docker-compose up -d --build site`.
+Ao rodar a rede do Docker Compose com o `site` em vez de usar `up`, executa apenas os containers do site. 
+O servidor web é montado, com as seguintes portas expostas:
 
 - **nginx** - `:8080`
 - **mysql** - `:3306`
 - **php** - `:9000`
 
-Three additional containers are included that handle Composer, NPM, and Artisan commands *without* having to have these platforms installed on your local computer. Use the following command examples from your project root, modifying them to fit your particular use case.
+Três containers adicionais são incluidos para controlar os comandos composer, NPM, e Artisan *sem* ter os programas instalados em sua máquina. Use os seguintes comandos exemplos da root do seu projeto, modificando eles para cada caso específico.
 
-- `docker-compose run --rm composer update`
-- `docker-compose run --rm npm run dev`
-- `docker-compose run --rm artisan migrate` 
+```
+docker-compose run --rm composer update
+```
+```
+docker-compose run --rm npm run dev
+```
+```
+docker-compose run --rm artisan migrate`
+```
 
-## Persistent MySQL Storage
+## Manter os dados do MySQL
 
-By default, whenever you bring down the Docker network, your MySQL data will be removed after the containers are destroyed. If you would like to have persistent data that remains after bringing containers down and back up, do the following:
+Por padrão, quando você derruba a rede Docker, seus dados MySQL são removidos depois que seus containers são destruidos. Se você gostaria de manter os dados que restam após os container serem derrubados e trazidos de volta, faça o seguinte:
 
-1. Create a `mysql` folder in the project root, alongside the `nginx` and `src` folders.
-2. Under the mysql service in your `docker-compose.yml` file, add the following lines:
+1. Crie uma pasta `mysql` na raiz do projeto, ao lado das pastas `nginx` e `src`.
+2. No arquivo `docker-compose.yml` embaixo do `mysql:` em `services:`, adicione as seguintes linhas:
 
 ```
 volumes:
